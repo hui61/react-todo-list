@@ -10,22 +10,24 @@ class TodoApp extends React.Component {
         }
     }
 
-    handleSubmitComment(item) {
-        debugger
-        console.log(item)
+    handleSubmitContent(item) {
         this.state.items.push(item)
         this.setState({items: this.state.items})
-        console.log(this.state.items)
+    }
+
+    handleDeleteItem(index) {
+        this.state.items.splice(index, 1)
+        this.setState({items: this.state.items})
     }
 
     render() {
         return (
-            <div className="todo-app">
+            <div className="todo-app" align="center">
                 <div className="todo-input">
-                    <TodoInput onSubmit={this.handleSubmitComment.bind(this)}/>
+                    <TodoInput onSubmit={this.handleSubmitContent.bind(this)}/>
                 </div>
                 <div className="todo-items">
-                    <TodoList items={this.state.items}/>
+                    <TodoList items={this.state.items} onSubmit={this.handleDeleteItem.bind(this)}/>
                 </div>
             </div>
 

@@ -15,7 +15,6 @@ class TodoInput extends React.Component {
     }
 
     handleSubmit() {
-        debugger
         if (this.props.onSubmit) {
             const {content} = this.state
             this.props.onSubmit({content})
@@ -30,7 +29,7 @@ class TodoInput extends React.Component {
                 <input value={this.state.content}
                        type="text" onChange={this.handleNameChange.bind(this)}
                 />
-                <button onClick={this.handleSubmit.bind(this)}>发布</button>
+                <button onClick={this.handleSubmit.bind(this)}>Add Item</button>
             </div>
         );
     }

@@ -4,11 +4,10 @@ import TodoItem from "./TodoItem";
 class TodoList extends React.Component {
 
     render() {
-        debugger
         return (
             <div>
-                {this.props.items.map((item,i) =>
-                    <TodoItem item={item} key={i}/>
+                {this.props.items.map((item, i) =>
+                    <TodoItem index={i} item={item} key={i} onSubmit={this.props.onSubmit.bind(this)}/>
                 )}
             </div>
         )
