@@ -1,6 +1,7 @@
 import React from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
+import axios from "axios"
 
 class TodoApp extends React.Component {
     constructor() {
@@ -13,6 +14,17 @@ class TodoApp extends React.Component {
     handleSubmitContent(item) {
         this.state.items.push(item)
         this.setState({items: this.state.items})
+    }
+
+    componentDidMount() {
+        this.initData()
+    }
+
+    initData = async () => {
+        const result = await axios.get('http://127.0.0.1:5000/api/items');
+        if (result) {
+            this.setState({items: result.data.items})
+        }
     }
 
     handleDeleteItem(index) {
