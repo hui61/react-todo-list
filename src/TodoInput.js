@@ -8,18 +8,24 @@ class TodoInput extends React.Component {
         }
     }
 
-    handleNameChange(event) {
+    handleNameChange = (event) => {
         this.setState({
             content: event.target.value
         })
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         if (this.props.onSubmit) {
-            const {content} = this.state
-            this.props.onSubmit({content})
+            debugger
+            const item = {
+                content: this.state.content,
+                isActive: true,
+                isComplete: false,
+                isHidden:false
+            }
+            this.props.onSubmit(item)
         }
-        this.setState({content:""})
+        this.setState({content: ""})
     }
 
     render() {
@@ -27,9 +33,9 @@ class TodoInput extends React.Component {
             <div>
                 <h1>Todos</h1>
                 <input value={this.state.content}
-                       type="text" onChange={this.handleNameChange.bind(this)}
+                       type="text" onChange={this.handleNameChange}
                 />
-                <button onClick={this.handleSubmit.bind(this)}>Add Item</button>
+                <button onClick={this.handleSubmit}>Add Item</button>
             </div>
         );
     }
