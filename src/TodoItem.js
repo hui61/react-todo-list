@@ -1,4 +1,8 @@
 import React from "react";
+import style from "./css/mystyle.module.css"
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Checkbox from "@material-ui/core/Checkbox";
 
 class TodoItem extends React.Component {
 
@@ -19,11 +23,13 @@ class TodoItem extends React.Component {
 
     render() {
         return (
-            <li>
-                <button onClick={this.markComplete}>Complete</button>
-                {this.props.item.content}
-                <button onClick={this.handleDelete}>Delete</button>
-            </li>
+            <div className={style.todoItem} align="left">
+                <Checkbox onChange={this.markComplete} checked={this.props.item.isComplete}/>
+                <text>{this.props.item.content}</text>
+                <IconButton onClick={this.handleDelete}>
+                    <DeleteIcon fontSize="small"/>
+                </IconButton>
+            </div>
 
         )
     }

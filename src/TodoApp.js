@@ -3,6 +3,8 @@ import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
 import axios from "axios"
 import TodoFoot from "./TodoFoot";
+import style from "./css/mystyle.module.css"
+
 
 class TodoApp extends React.Component {
     constructor() {
@@ -86,14 +88,14 @@ class TodoApp extends React.Component {
     render() {
         return (
             <div className="todo-app" align="center">
-                <div className="todo-input">
+                <div className={style.todoInput}>
                     <TodoInput onSubmit={this.handleSubmitContent}/>
                 </div>
-                <div className="todo-items">
+                <div className={style.todoList}>
                     <TodoList items={this.state.items} deleteItem={this.handleDeleteItem}
                               completeItem={this.handleCompleteItem}/>
                 </div>
-                <div>
+                <div className={style.todoFoot}>
                     <TodoFoot items={this.state.items} showComplete={this.showCompleteItem}
                               showAll={this.showAllItem} showActive={this.showActiveItem} clearComplete={this.clearCompleteItem}></TodoFoot>
                 </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./css/mystyle.module.css"
 
 class TodoInput extends React.Component {
     constructor() {
@@ -31,7 +32,7 @@ class TodoInput extends React.Component {
     render() {
         return (
             <div>
-                <h1>Todos</h1>
+                <h1 className={styles.bigBlue}>Todos</h1>
                 <input value={this.state.content}
                        type="text" onChange={this.handleNameChange}
                 />

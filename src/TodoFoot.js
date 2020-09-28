@@ -1,13 +1,14 @@
 import * as React from "react";
+import Button from '@material-ui/core/Button';
 
 class TodoFoot extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.showAll}>All</button>
-                <button onClick={this.showActive}>Active</button>
-                <button onClick={this.showComplete}>Complete</button>
-                <button onClick={this.clearComplete}>Clear Complete</button>
+                <Button variant="contained" size="small"  onClick={this.showAll}>All</Button>
+                <Button variant="contained" size="small" color="primary" onClick={this.showActive}>Active</Button>
+                <Button variant="contained" size="small" color="secondary" onClick={this.showComplete}>Completed</Button>
+                <Button variant="contained" size="small" onClick={this.clearComplete}>Clear Complete</Button>
             </div>
         )
     }

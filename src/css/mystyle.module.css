@@ -1,0 +1,21 @@
+.bigBlue {
+    color: DodgerBlue;
+    font-family: Arial;
+    text-align: center;
+}
+
+.todoInput{
+    margin-bottom: 20px;
+}
+
+.todoList{
+    margin-bottom: 10px;
+}
+
+.todoItem{
+    margin-left:42.5%;
+}
+
+.todoFoot{
+    margin-bottom: 40px;
+}
