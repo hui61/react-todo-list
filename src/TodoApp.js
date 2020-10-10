@@ -35,8 +35,9 @@ class TodoApp extends React.Component {
         this.setState({items: this.state.items})
     }
 
-    showCompleteItem = (items) => {
-        const newItems = items.map((item) => {
+    showCompleteItem = () => {
+        debugger
+        const newItems = this.state.items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = false
                 return item
@@ -57,16 +58,16 @@ class TodoApp extends React.Component {
         this.setState({items: items})
     }
 
-    showAllItem = (items) => {
-        const newItems = items.map((item) => {
+    showAllItem = () => {
+        const newItems = this.state.items.map((item) => {
             item.isHidden = false
             return item
         })
         this.setState({items: newItems})
     }
 
-    showActiveItem = (items) => {
-        const newItems = items.map((item) => {
+    showActiveItem = () => {
+        const newItems = this.state.items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = true
                 return item
@@ -78,8 +79,8 @@ class TodoApp extends React.Component {
         this.setState({items: newItems})
     }
 
-    clearCompleteItem = (items) =>{
-        const newItems = items.filter(function(item){
+    clearCompleteItem = () =>{
+        const newItems = this.state.items.filter(function(item){
             return item.isComplete === false
         })
         this.setState({items: newItems})
@@ -96,8 +97,12 @@ class TodoApp extends React.Component {
                               completeItem={this.handleCompleteItem}/>
                 </div>
                 <div className={style.todoFoot}>
-                    <TodoFoot items={this.state.items} showComplete={this.showCompleteItem}
-                              showAll={this.showAllItem} showActive={this.showActiveItem} clearComplete={this.clearCompleteItem}></TodoFoot>
+                    <TodoFoot items={this.state.items}
+                              showComplete={this.showCompleteItem}
+                              showAll={this.showAllItem}
+                              showActive={this.showActiveItem}
+                              clearComplete={this.clearCompleteItem}>
+                    </TodoFoot>
                 </div>
             </div>
 

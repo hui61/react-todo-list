@@ -1,28 +1,14 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 
-class TodoList extends React.Component {
+const TodoList = ({ deleteItem, completeItem, items}) => {
+    const showItems = items.filter( item => !item.isHidden)
 
-    render() {
-        const showItems = this.props.items.filter(
-            function (item) {
-                return item.isHidden === false
-            }
-        )
-        debugger
-        console.log("here")
-        return (
-            <div>
-                {showItems.map( (item, i)=> {
-                        debugger
-                        return <TodoItem index={i} item={item} key={i}
-                                         deleteItem={this.props.deleteItem.bind(this)}
-                                         completeItem={this.props.completeItem.bind(this)}/>
-                    }
-                )}
-            </div>
-        )
-    }
+   return  showItems.map( (item, i)=> {
+        return <TodoItem index={i} item={item} key={i}
+                         deleteItem={deleteItem}
+                         completeItem={completeItem}/>
+    })
 }
 
 export default TodoList
