@@ -4,17 +4,24 @@ import TodoList from "./TodoList";
 import axios from "axios"
 import TodoFoot from "./TodoFoot";
 import style from "./css/mystyle.module.css"
-
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
+import Radio from "@material-ui/core/Radio";
 
 class TodoApp extends React.Component {
     constructor() {
         super();
         this.state = {
-            items: []
+            items: [],
+            isLogin: false
         }
     }
 
     handleSubmitContent = (item) => {
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         this.state.items.push(item)
         this.setState({items: this.state.items})
     }
@@ -31,12 +38,19 @@ class TodoApp extends React.Component {
     }
 
     handleDeleteItem = (index) => {
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         this.state.items.splice(index, 1)
         this.setState({items: this.state.items})
     }
 
     showCompleteItem = () => {
-        debugger
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         const newItems = this.state.items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = false
@@ -59,6 +73,10 @@ class TodoApp extends React.Component {
     }
 
     showAllItem = () => {
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         const newItems = this.state.items.map((item) => {
             item.isHidden = false
             return item
@@ -67,6 +85,10 @@ class TodoApp extends React.Component {
     }
 
     showActiveItem = () => {
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         const newItems = this.state.items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = true
@@ -80,15 +102,23 @@ class TodoApp extends React.Component {
     }
 
     clearCompleteItem = () =>{
+        if(!this.state.isLogin){
+            alert("not login")
+            return
+        }
         const newItems = this.state.items.filter(function(item){
             return item.isComplete === false
         })
         this.setState({items: newItems})
     }
 
+
     render() {
         return (
             <div className="todo-app" align="center">
+                <div>
+                    <Radio color="primary" checked={this.state.isLogin}/>
+                </div>
                 <div className={style.todoInput}>
                     <TodoInput onSubmit={this.handleSubmitContent}/>
                 </div>
@@ -103,6 +133,10 @@ class TodoApp extends React.Component {
                               showActive={this.showActiveItem}
                               clearComplete={this.clearCompleteItem}>
                     </TodoFoot>
+                </div>
+                <div>
+                    <LoginButton todoapp={this}/>
+                    <LogoutButton todoapp={this}/>
                 </div>
             </div>
 
