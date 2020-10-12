@@ -1,12 +1,6 @@
-import logButton from "./Util";
-import * as React from "react";
+import withLogButton from "./Util";
+import Button from "./Button"
 
-class LoginButton extends React.Component{
-    render() {
-        return <button></button>
-    }
-}
 
-LoginButton = logButton(LoginButton,"login")
 
-export default LoginButton
+export default withLogButton(Button)

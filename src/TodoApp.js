@@ -112,6 +112,11 @@ class TodoApp extends React.Component {
         this.setState({items: newItems})
     }
 
+    onTogglelogin = (isLogin) => {
+        this.setState({
+            isLogin
+        })
+    }
 
     render() {
         return (
@@ -135,8 +140,8 @@ class TodoApp extends React.Component {
                     </TodoFoot>
                 </div>
                 <div>
-                    <LoginButton todoapp={this}/>
-                    <LogoutButton todoapp={this}/>
+                    <LoginButton name="login" togglelogin={this.onTogglelogin}/>
+                    <LogoutButton name="logout" togglelogin={this.onTogglelogin}/>
                 </div>
             </div>
 

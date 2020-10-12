@@ -1,24 +1,23 @@
 import * as React from "react";
 
-function logButton(Button, name) {
+function withLogButton(Button) {
 
-     class newButton extends React.Component {
+     return class extends React.Component {
 
          action =() =>{
-             if (name==="login"){
-                 this.props.todoapp.setState({isLogin: true})
+             if (this.props.name==="login"){
+                 this.props.togglelogin(true)
                  alert("login")
-             }else if (name==="logout"){
-                 this.props.todoapp.setState({isLogin: false,items:[]})
+             }else if (this.props.name ==="logout"){
+                 this.props.togglelogin(false)
                  alert("logout")
              }
          }
 
          render() {
-            return <button onClick={this.action}>{name}</button>
+            return <Button onClick={this.action} {...this.props} />
         }
     }
-    return newButton
 }
 
-export default logButton
+export default withLogButton
