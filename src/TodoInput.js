@@ -17,7 +17,6 @@ class TodoInput extends React.Component {
 
     handleSubmit = () => {
         if (this.props.onSubmit) {
-            debugger
             const item = {
                 content: this.state.content,
                 isActive: true,

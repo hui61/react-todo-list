@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
 import axios from "axios"
@@ -8,50 +8,43 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import Radio from "@material-ui/core/Radio";
 
-class TodoApp extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            items: [],
-            isLogin: false
-        }
-    }
-
-    handleSubmitContent = (item) => {
-        if(!this.state.isLogin){
+const TodoApp = () => {
+    const [items, setItems] = useState([]);
+    const [isLogin, setIsLogin] = useState(true);
+    const handleSubmitContent = (item) => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        this.state.items.push(item)
-        this.setState({items: this.state.items})
+        setItems([...items,item])
     }
 
-    componentDidMount() {
+    useEffect(() => {
         // this.initData()
-    }
+    });
 
-    initData = async () => {
+    const initData = async () => {
         const result = await axios.get('http://127.0.0.1:5000/api/items');
         if (result) {
-            this.setState({items: result.data.items})
+            setItems(result.data.items)
         }
     }
 
-    handleDeleteItem = (index) => {
-        if(!this.state.isLogin){
+    const handleDeleteItem = (index) => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        this.state.items.splice(index, 1)
-        this.setState({items: this.state.items})
+        debugger
+        setItems(items.splice(index, 1))
     }
 
-    showCompleteItem = () => {
-        if(!this.state.isLogin){
+    const showCompleteItem = () => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        const newItems = this.state.items.map((item) => {
+        const newItems = items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = false
                 return item
@@ -60,36 +53,36 @@ class TodoApp extends React.Component {
                 return item
             }
         })
-        this.setState({items: newItems})
+        setItems(newItems)
     }
 
 
-    handleCompleteItem = (index) => {
-        const item = this.state.items[index];
+    const handleCompleteItem = (index) => {
+        const item = items[index];
         const newItem = {content: item.content, isActive: item.isActive, isComplete: true, isHidden: item.isHidden}
-        const items = this.state.items
         items[index] = newItem
-        this.setState({items: items})
+        setItems(items)
+        return items[index]
     }
 
-    showAllItem = () => {
-        if(!this.state.isLogin){
+    const showAllItem = () => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        const newItems = this.state.items.map((item) => {
+        const newItems = items.map((item) => {
             item.isHidden = false
             return item
         })
-        this.setState({items: newItems})
+        setItems(newItems)
     }
 
-    showActiveItem = () => {
-        if(!this.state.isLogin){
+    const showActiveItem = () => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        const newItems = this.state.items.map((item) => {
+        const newItems = items.map((item) => {
             if (item.isComplete) {
                 item.isHidden = true
                 return item
@@ -98,55 +91,51 @@ class TodoApp extends React.Component {
                 return item
             }
         })
-        this.setState({items: newItems})
+        setItems(newItems)
     }
 
-    clearCompleteItem = () =>{
-        if(!this.state.isLogin){
+    const clearCompleteItem = () => {
+        if (!isLogin) {
             alert("not login")
             return
         }
-        const newItems = this.state.items.filter(function(item){
+        const newItems = items.filter(function (item) {
             return item.isComplete === false
         })
-        this.setState({items: newItems})
+        setItems(newItems)
     }
 
-    onTogglelogin = (isLogin) => {
-        this.setState({
-            isLogin
-        })
+    const onTogglelogin = (isLogin) => {
+        setIsLogin(isLogin)
     }
 
-    render() {
-        return (
-            <div className="todo-app" align="center">
-                <div>
-                    <Radio color="primary" checked={this.state.isLogin}/>
-                </div>
-                <div className={style.todoInput}>
-                    <TodoInput onSubmit={this.handleSubmitContent}/>
-                </div>
-                <div className={style.todoList}>
-                    <TodoList items={this.state.items} deleteItem={this.handleDeleteItem}
-                              completeItem={this.handleCompleteItem}/>
-                </div>
-                <div className={style.todoFoot}>
-                    <TodoFoot items={this.state.items}
-                              showComplete={this.showCompleteItem}
-                              showAll={this.showAllItem}
-                              showActive={this.showActiveItem}
-                              clearComplete={this.clearCompleteItem}>
-                    </TodoFoot>
-                </div>
-                <div>
-                    <LoginButton name="login" togglelogin={this.onTogglelogin}/>
-                    <LogoutButton name="logout" togglelogin={this.onTogglelogin}/>
-                </div>
+    return (
+        <div className="todo-app" align="center">
+            <div>
+                <Radio color="primary" checked={isLogin}/>
             </div>
+            <div className={style.todoInput}>
+                <TodoInput onSubmit={handleSubmitContent}/>
+            </div>
+            <div className={style.todoList}>
+                <TodoList items={items} deleteItem={handleDeleteItem}
+                          completeItem={handleCompleteItem}/>
+            </div>
+            <div className={style.todoFoot}>
+                <TodoFoot items={items}
+                          showComplete={showCompleteItem}
+                          showAll={showAllItem}
+                          showActive={showActiveItem}
+                          clearComplete={clearCompleteItem}>
+                </TodoFoot>
+            </div>
+            <div>
+                <LoginButton name="login" togglelogin={onTogglelogin}/>
+                <LogoutButton name="logout" togglelogin={onTogglelogin}/>
+            </div>
+        </div>
 
-        )
-    }
+    )
 }
 
 export default TodoApp
