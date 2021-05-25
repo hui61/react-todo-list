@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import styles from "./css/mystyle.module.css"
+import PropTypes from "prop-types";
 
 const TodoInput = ({onSubmit}) => {
 
@@ -32,6 +33,11 @@ const TodoInput = ({onSubmit}) => {
             <button onClick={handleSubmit}>Add Item</button>
         </div>
     );
+}
+
+
+TodoInput.propTypes = {
+    onSubmit: PropTypes.func.isRequired
 }
 
 export default TodoInput
