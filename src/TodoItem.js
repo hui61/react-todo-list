@@ -5,10 +5,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from "@material-ui/core/Checkbox";
 
 const TodoItem = ({deleteItem,completeItem,item,index}) => {
-    const [checked, setChecked] = useState(item.isComplete);
-    useEffect(() => {
-        setChecked(item.isComplete)
-    },[item])
     const handleDelete = () => {
         if (deleteItem) {
             deleteItem(index)
@@ -19,10 +15,9 @@ const TodoItem = ({deleteItem,completeItem,item,index}) => {
         if (completeItem) {
             item=completeItem(index)
         }
-        setChecked(item.isComplete)
     }
     return <div className={style.todoItem} align="left">
-            <Checkbox onChange={markComplete} checked={checked}/>
+            <Checkbox onChange={markComplete} checked={item.isComplete}/>
             {item.content}
             <IconButton onClick={handleDelete}>
                 <DeleteIcon fontSize="small"/>

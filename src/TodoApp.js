@@ -35,8 +35,11 @@ const TodoApp = () => {
             alert("not login")
             return
         }
-        debugger
-        setItems(items.splice(index, 1))
+        items.splice(index, 1)
+        // copy items then the address of items change, react will render app again
+        setItems([...items])
+        console.log("========")
+        console.log(items)
     }
 
     const showCompleteItem = () => {
@@ -61,8 +64,10 @@ const TodoApp = () => {
         const item = items[index];
         const newItem = {content: item.content, isActive: item.isActive, isComplete: true, isHidden: item.isHidden}
         items[index] = newItem
-        setItems(items)
-        return items[index]
+        // copy items then the address of items change, react will render app again
+        setItems([...items])
+        console.log("-------")
+        console.log(items)
     }
 
     const showAllItem = () => {
