@@ -61,6 +61,10 @@ const TodoApp = () => {
 
 
     const handleCompleteItem = (index) => {
+        if (!isLogin) {
+            alert("not login")
+            return
+        }
         const item = items[index];
         const newItem = {content: item.content, isActive: item.isActive, isComplete: true, isHidden: item.isHidden}
         items[index] = newItem
