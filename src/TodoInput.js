@@ -1,44 +1,37 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./css/mystyle.module.css"
 
-class TodoInput extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            content: ""
-        }
+const TodoInput = ({onSubmit}) => {
+
+
+    const [content, setContent] = useState("");
+
+    const handleNameChange = (event) => {
+        setContent(event.target.value);
     }
 
-    handleNameChange = (event) => {
-        this.setState({
-            content: event.target.value
-        })
-    }
-
-    handleSubmit = () => {
-        if (this.props.onSubmit) {
+    const handleSubmit = () => {
+        if (onSubmit) {
             const item = {
-                content: this.state.content,
+                content: content,
                 isActive: true,
                 isComplete: false,
-                isHidden:false
+                isHidden: false
             }
-            this.props.onSubmit(item)
+            onSubmit(item)
         }
-        this.setState({content: ""})
+        setContent("")
     }
 
-    render() {
-        return (
-            <div>
-                <h1 className={styles.bigBlue}>Todos</h1>
-                <input value={this.state.content}
-                       type="text" onChange={this.handleNameChange}
-                />
-                <button onClick={this.handleSubmit}>Add Item</button>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h1 className={styles.bigBlue}>Todos</h1>
+            <input value={content}
+                   type="text" onChange={handleNameChange}
+            />
+            <button onClick={handleSubmit}>Add Item</button>
+        </div>
+    );
 }
 
 export default TodoInput
