@@ -114,6 +114,10 @@ const TodoApp = () => {
         setItems(newItems)
     }
 
+    const clearAllItem = () => {
+            setItems([])
+        }
+
     const onTogglelogin = (isLogin) => {
         setIsLogin(isLogin)
     }
@@ -127,8 +131,12 @@ const TodoApp = () => {
                 <TodoInput onSubmit={handleSubmitContent}/>
             </div>
             <div className={style.todoList}>
-                <TodoList items={items} deleteItem={handleDeleteItem}
-                          completeItem={handleCompleteItem}/>
+                <TodoList items={items}
+                          deleteItem={handleDeleteItem}
+                          completeItem={handleCompleteItem}
+                          isLogin={isLogin}
+                          clearAllItem={clearAllItem}
+                />
             </div>
             <div className={style.todoFoot}>
                 <TodoFoot items={items}
