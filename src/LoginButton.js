@@ -1,4 +1,5 @@
 import withLogButton from "./Util";
 import Button from "./Button";
 
-export default withLogButton(Button);
+const loginButton = withLogButton(Button);
+export default loginButton;

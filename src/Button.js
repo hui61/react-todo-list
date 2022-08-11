@@ -7,6 +7,7 @@ class Button extends React.Component {
   }
 }
 Button.propTypes = {
-  name: PropTypes.func.isRequired
+  name: PropTypes.string.isRequired,
+  togglelogin: PropTypes.func.isRequired
 };
 export default Button;
