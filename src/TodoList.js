@@ -6,6 +6,9 @@ import { Item } from "./type";
 const TodoList = ({ deleteItem, completeItem, items, isLogin, clearAllItem }) => {
   const showItems = items.filter(item => !item.isHidden);
   useEffect(() => {
+    // will execute
+    // 1. after first render todoList
+    // 2. every time when !isLogin changed
     if (!isLogin) {
       clearAllItem();
     }
