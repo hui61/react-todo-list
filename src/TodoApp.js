@@ -1,152 +1,156 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
-import axios from "axios"
 import TodoFoot from "./TodoFoot";
-import style from "./css/mystyle.module.css"
+import style from "./css/mystyle.module.css";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import Radio from "@material-ui/core/Radio";
 
-class TodoApp extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            items: [],
-            isLogin: false
-        }
+const TodoApp = () => {
+  const [items, setItems] = useState([]);
+  const [isLogin, setIsLogin] = useState(false);
+  const handleSubmitContent = (item) => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    setItems([...items, item]);
+  };
 
-    handleSubmitContent = (item) => {
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        this.state.items.push(item)
-        this.setState({items: this.state.items})
+  useEffect(() => {
+    // this.initData()
+  });
+
+  // const initData = async () => {
+  //   const result = await axios.get("http://127.0.0.1:5000/api/items");
+  //   if (result) {
+  //     setItems(result.data.items);
+  //   }
+  // };
+
+  const handleDeleteItem = (index) => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    items.splice(index, 1);
+    // copy items then the address of items change, react will render app again
+    setItems([...items]);
+    console.log("========");
+    console.log(items);
+  };
 
-    componentDidMount() {
-        // this.initData()
+  const showCompleteItem = () => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    const newItems = items.map((item) => {
+      if (item.isComplete) {
+        item.isHidden = false;
+        return item;
+      } else {
+        item.isHidden = true;
+        return item;
+      }
+    });
+    setItems(newItems);
+  };
 
-    initData = async () => {
-        const result = await axios.get('http://127.0.0.1:5000/api/items');
-        if (result) {
-            this.setState({items: result.data.items})
-        }
+  const handleCompleteItem = (index) => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    const item = items[index];
+    const newItem = { content: item.content, isActive: item.isActive, isComplete: true, isHidden: item.isHidden };
+    items[index] = newItem;
+    // copy items then the address of items change, react will render app again
+    setItems([...items]);
+    console.log("-------");
+    console.log(items);
+  };
 
-    handleDeleteItem = (index) => {
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        this.state.items.splice(index, 1)
-        this.setState({items: this.state.items})
+  const showAllItem = () => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    const newItems = items.map((item) => {
+      item.isHidden = false;
+      return item;
+    });
+    setItems(newItems);
+  };
 
-    showCompleteItem = () => {
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        const newItems = this.state.items.map((item) => {
-            if (item.isComplete) {
-                item.isHidden = false
-                return item
-            } else {
-                item.isHidden = true
-                return item
-            }
-        })
-        this.setState({items: newItems})
+  const showActiveItem = () => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    const newItems = items.map((item) => {
+      if (item.isComplete) {
+        item.isHidden = true;
+        return item;
+      } else {
+        item.isHidden = false;
+        return item;
+      }
+    });
+    setItems(newItems);
+  };
 
-
-    handleCompleteItem = (index) => {
-        const item = this.state.items[index];
-        const newItem = {content: item.content, isActive: item.isActive, isComplete: true, isHidden: item.isHidden}
-        const items = this.state.items
-        items[index] = newItem
-        this.setState({items: items})
+  const clearCompleteItem = () => {
+    if (!isLogin) {
+      alert("not login");
+      return;
     }
+    const newItems = items.filter(function (item) {
+      return item.isComplete === false;
+    });
+    setItems(newItems);
+  };
 
-    showAllItem = () => {
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        const newItems = this.state.items.map((item) => {
-            item.isHidden = false
-            return item
-        })
-        this.setState({items: newItems})
-    }
+  const clearAllItem = () => {
+    setItems([]);
+  };
 
-    showActiveItem = () => {
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        const newItems = this.state.items.map((item) => {
-            if (item.isComplete) {
-                item.isHidden = true
-                return item
-            } else {
-                item.isHidden = false
-                return item
-            }
-        })
-        this.setState({items: newItems})
-    }
+  const onTogglelogin = (isLogin) => {
+    setIsLogin(isLogin);
+  };
 
-    clearCompleteItem = () =>{
-        if(!this.state.isLogin){
-            alert("not login")
-            return
-        }
-        const newItems = this.state.items.filter(function(item){
-            return item.isComplete === false
-        })
-        this.setState({items: newItems})
-    }
-
-    onTogglelogin = (isLogin) => {
-        this.setState({
-            isLogin
-        })
-    }
-
-    render() {
-        return (
-            <div className="todo-app" align="center">
-                <div>
-                    <Radio color="primary" checked={this.state.isLogin}/>
-                </div>
-                <div className={style.todoInput}>
-                    <TodoInput onSubmit={this.handleSubmitContent}/>
-                </div>
-                <div className={style.todoList}>
-                    <TodoList items={this.state.items} deleteItem={this.handleDeleteItem}
-                              completeItem={this.handleCompleteItem}/>
-                </div>
-                <div className={style.todoFoot}>
-                    <TodoFoot items={this.state.items}
-                              showComplete={this.showCompleteItem}
-                              showAll={this.showAllItem}
-                              showActive={this.showActiveItem}
-                              clearComplete={this.clearCompleteItem}>
-                    </TodoFoot>
-                </div>
-                <div>
-                    <LoginButton name="login" togglelogin={this.onTogglelogin}/>
-                    <LogoutButton name="logout" togglelogin={this.onTogglelogin}/>
-                </div>
+  return (
+        <div className="todo-app" align="center">
+            <div>
+                <Radio color="primary" checked={isLogin}/>
             </div>
+            <div className={style.todoInput}>
+                <TodoInput onSubmit={handleSubmitContent}/>
+            </div>
+            <div className={style.todoList}>
+                <TodoList items={items}
+                          deleteItem={handleDeleteItem}
+                          completeItem={handleCompleteItem}
+                          isLogin={isLogin}
+                          clearAllItem={clearAllItem}
+                />
+            </div>
+            <div className={style.todoFoot}>
+                <TodoFoot items={items}
+                          showComplete={showCompleteItem}
+                          showAll={showAllItem}
+                          showActive={showActiveItem}
+                          clearComplete={clearCompleteItem}>
+                </TodoFoot>
+            </div>
+            <div>
+                <LoginButton name="login" togglelogin={onTogglelogin}/>
+                <LogoutButton name="logout" togglelogin={onTogglelogin}/>
+            </div>
+        </div>
 
-        )
-    }
-}
+  );
+};
 
-export default TodoApp
+export default TodoApp;

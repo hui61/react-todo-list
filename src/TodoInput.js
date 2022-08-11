@@ -1,45 +1,40 @@
-import React from "react";
-import styles from "./css/mystyle.module.css"
+import React, { useState } from "react";
+import styles from "./css/mystyle.module.css";
+import PropTypes from "prop-types";
 
-class TodoInput extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            content: ""
-        }
+const TodoInput = ({ onSubmit }) => {
+  const [content, setContent] = useState("");
+
+  const handleNameChange = (event) => {
+    setContent(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (onSubmit) {
+      const item = {
+        content: content,
+        isActive: true,
+        isComplete: false,
+        isHidden: false
+      };
+      onSubmit(item);
     }
+    setContent("");
+  };
 
-    handleNameChange = (event) => {
-        this.setState({
-            content: event.target.value
-        })
-    }
+  return (
+        <div data-testid = "todo-input">
+            <h1 className={styles.bigBlue}>Todos</h1>
+            <input value={content}
+                   type="text" onChange={handleNameChange}
+            />
+            <button onClick={handleSubmit}>Add Item</button>
+        </div>
+  );
+};
 
-    handleSubmit = () => {
-        if (this.props.onSubmit) {
-            debugger
-            const item = {
-                content: this.state.content,
-                isActive: true,
-                isComplete: false,
-                isHidden:false
-            }
-            this.props.onSubmit(item)
-        }
-        this.setState({content: ""})
-    }
+TodoInput.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+};
 
-    render() {
-        return (
-            <div>
-                <h1 className={styles.bigBlue}>Todos</h1>
-                <input value={this.state.content}
-                       type="text" onChange={this.handleNameChange}
-                />
-                <button onClick={this.handleSubmit}>Add Item</button>
-            </div>
-        );
-    }
-}
-
-export default TodoInput
+export default TodoInput;

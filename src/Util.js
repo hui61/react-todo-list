@@ -1,23 +1,22 @@
 import * as React from "react";
 
-function withLogButton(Button) {
-
-     return class extends React.Component {
-
-         action =() =>{
-             if (this.props.name==="login"){
-                 this.props.togglelogin(true)
-                 alert("login")
-             }else if (this.props.name ==="logout"){
-                 this.props.togglelogin(false)
-                 alert("logout")
-             }
-         }
-
-         render() {
-            return <Button onClick={this.action} {...this.props} />
-        }
+// eslint-disable-next-line react/display-name
+const withLogButton = (Button) => (props) => {
+  const action = () => {
+    // eslint-disable-next-line react/prop-types
+    if (props.name === "login") {
+      // eslint-disable-next-line react/prop-types
+      props.togglelogin(true);
+      alert("login");
+      // eslint-disable-next-line react/prop-types
+    } else if (props.name === "logout") {
+      // eslint-disable-next-line react/prop-types
+      props.togglelogin(false);
+      alert("logout");
     }
-}
+  };
 
-export default withLogButton
+  return <Button onClick={action} {...props} />;
+};
+
+export default withLogButton;
